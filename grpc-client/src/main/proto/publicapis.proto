@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.techoverflow.publicapis";
+option java_outer_classname = "PublicApisProto";
+option objc_class_prefix = "HLW";
+
+package publicapis;
+
+service PublicApis {
+  // Sends a greeting
+  rpc getApiList (PublicApisRequest) returns (PublicApisResponse) {}
+}
+
+message PublicApisRequest {
+
+}
+
+message PublicApisResponse {
+  int32 count = 1;
+  message Entries {
+    string api = 1;
+    string desc = 2;
+    string auth = 3;
+    bool https = 4;
+    string cors = 5;
+    string link = 6;
+    string category = 7;
+  }
+
+  repeated Entries entries = 2;
+}
+
