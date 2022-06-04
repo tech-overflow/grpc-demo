@@ -18,16 +18,15 @@ message PublicApisRequest {
 
 message PublicApisResponse {
   int32 count = 1;
-  message Entries {
-    string api = 1;
-    string desc = 2;
-    string auth = 3;
-    bool https = 4;
-    string cors = 5;
-    string link = 6;
-    string category = 7;
+  message Entry {
+    string API = 1;
+    string Description = 2;
+    string Auth = 3;
+    bool HTTPS = 4;
+    string Cors = 5;
+    string Link = 6;
+    string Category = 7;
   }
 
-  repeated Entries entries = 2;
+  repeated Entry entries = 2;
 }
-

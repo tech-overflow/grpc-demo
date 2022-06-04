@@ -7,6 +7,7 @@ import io.techoverflow.publicapis.PublicApisResponse;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServerDriver {
@@ -55,8 +56,13 @@ public class ServerDriver {
 
         @Override
         public void getApiList(PublicApisRequest req, StreamObserver<PublicApisResponse> responseObserver) {
-            PublicApisResponse reply = PublicApisResponse.newBuilder().build();
-            responseObserver.onNext(reply);
+            PublicApisBlockingCaller publicApisBlockingCaller = new PublicApisBlockingCaller();
+            try {
+                responseObserver.onNext(publicApisBlockingCaller.getPublicApis().build());
+            } catch (IOException e) {
+                logger.log(Level.WARNING, e.getMessage());
+                responseObserver.onNext(PublicApisResponse.newBuilder().build());
+            }
             responseObserver.onCompleted();
         }
     }

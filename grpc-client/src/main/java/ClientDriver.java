@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -23,6 +24,7 @@ public class ClientDriver {
         PublicApisRequest request = PublicApisRequest.newBuilder().build();
         try {
             PublicApisResponse response = blockingStub.getApiList(request);
+            logger.log(Level.WARNING, new Gson().toJson(response));
         } catch (StatusRuntimeException e) {
             logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
             return;
