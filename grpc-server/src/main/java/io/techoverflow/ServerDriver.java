@@ -1,3 +1,5 @@
+package io.techoverflow;
+
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -59,6 +61,7 @@ public class ServerDriver {
             PublicApisBlockingCaller publicApisBlockingCaller = new PublicApisBlockingCaller();
             try {
                 responseObserver.onNext(publicApisBlockingCaller.getPublicApis().build());
+                logger.log(Level.ALL, "Emitting response");
             } catch (IOException e) {
                 logger.log(Level.WARNING, e.getMessage());
                 responseObserver.onNext(PublicApisResponse.newBuilder().build());
