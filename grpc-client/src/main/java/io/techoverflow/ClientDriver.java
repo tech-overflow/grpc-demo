@@ -25,11 +25,13 @@ public class ClientDriver {
     public ClientDriver() {
         String target = "localhost:50051";
         channel = ManagedChannelBuilder.forTarget(target)
-                // Channels are secure by default (via SSL/TLS). For the example we disable TLS to avoid
-                // needing certificates.
                 .usePlaintext()
                 .build();
         blockingStub = PublicApisGrpc.newBlockingStub(channel);
+    }
+
+    public void shutdown() {
+        channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
     }
 
     @Benchmark
@@ -45,10 +47,9 @@ public class ClientDriver {
     }
 
     public static void main(String[] args) throws Exception {
-
+        ClientDriver client = new ClientDriver();
         try {
-            ClientDriver client = new ClientDriver();
-            //client.getApiList();
+
             Options opt = new OptionsBuilder()
                     .include(ClientDriver.class.getSimpleName())
                     .forks(2)
@@ -57,10 +58,7 @@ public class ClientDriver {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // ManagedChannels use resources like threads and TCP connections. To prevent leaking these
-            // resources the channel should be shut down when it will no longer be used. If it may be used
-            // again leave it running.
-            channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
+            client.shutdown();
         }
     }
 }
