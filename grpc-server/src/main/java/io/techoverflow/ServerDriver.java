@@ -60,8 +60,8 @@ public class ServerDriver {
         public void getApiList(PublicApisRequest req, StreamObserver<PublicApisResponse> responseObserver) {
             PublicApisBlockingCaller publicApisBlockingCaller = new PublicApisBlockingCaller();
             try {
+                //logger.log(Level.INFO, String.valueOf());
                 responseObserver.onNext(publicApisBlockingCaller.getPublicApis().build());
-                logger.log(Level.ALL, "Emitting response");
             } catch (IOException e) {
                 logger.log(Level.WARNING, e.getMessage());
                 responseObserver.onNext(PublicApisResponse.newBuilder().build());

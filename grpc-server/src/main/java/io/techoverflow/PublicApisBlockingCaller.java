@@ -12,8 +12,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PublicApisBlockingCaller {
+
+    private static final Logger logger = Logger.getLogger(PublicApisBlockingCaller.class.getName());
 
     public PublicApisResponse.Builder getPublicApis() throws IOException {
         HttpClient client = new DefaultHttpClient();
@@ -27,6 +31,12 @@ public class PublicApisBlockingCaller {
         }
         PublicApisResponse.Builder publicApisResponse = PublicApisResponse.newBuilder();
         JsonFormat.parser().merge(output.toString(), publicApisResponse);
+        return publicApisResponse;
+    }
+
+    public PublicApisResponse.Builder getPublicApisTest() throws IOException {
+        logger.log(Level.WARNING, "getPublicApisTest");
+        PublicApisResponse.Builder publicApisResponse = PublicApisResponse.newBuilder();
         return publicApisResponse;
     }
 }
